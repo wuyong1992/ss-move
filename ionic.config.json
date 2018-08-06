@@ -1,0 +1,7 @@
+{
+  "name": "ss2",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
