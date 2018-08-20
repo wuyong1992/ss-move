@@ -1,0 +1,67 @@
+<div *ngIf="!userInfoFull" style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
+
+    <!--<div style="width: 100px;height:50px;border-radius: 50px 50px 0 0;background-color: black">
+
+    </div>-->
+    <div style="display: flex;flex-direction: column;justify-content: center;
+                align-items: center;background-color: white;width: 80%;border-radius: 5px;margin: 1rem 0">
+        <div>
+            <svg class="icon" aria-hidden="true" style="width: 3rem;height: 3rem">
+                <use xlink:href="#icon-ku"></use>
+            </svg>
+        </div>
+
+        <ion-text [color]="'danger'">
+            不好！您的信息还没填写完整
+        </ion-text>
+
+        <hr style="border:0.1px dashed #f4a942; height:1px;width: 100%">
+
+
+        <ion-text [color]="'medium'">
+            请 <span style="color:#f04141;">重新填写</span>， 或者 <span style="color:#f04141;">修改</span>
+        </ion-text>
+
+        <div style="width: 50%;margin-top: 1rem">
+            <ion-button [color]="'danger'" expand="block" size="small" (click)="closeModal()">再看一会</ion-button>
+        </div>
+        <div style="width: 50%;margin-top: 1rem">
+            <ion-button [color]="'danger'" expand="block" size="small" (click)="gotoStudentCenter()">现在就去</ion-button>
+        </div>
+    </div>
+
+</div>
+
+
+<div *ngIf="userInfoFull" style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
+
+    <!--<div style="width: 100px;height:50px;border-radius: 50px 50px 0 0;background-color: black">
+
+    </div>-->
+    <div style="display: flex;flex-direction: column;justify-content: center;
+                align-items: center;background-color: white;width: 80%;border-radius: 5px;margin: 1rem 0">
+        <div>
+            <svg class="icon" aria-hidden="true" style="width: 3rem;height: 3rem">
+                <use xlink:href="#icon-xiaolian"></use>
+            </svg>
+        </div>
+
+        <ion-text [color]="'danger'">
+            恭喜！您已经报名成功了呢！
+        </ion-text>
+
+        <hr style="border:0.1px dashed #f4a942; height:1px;width: 100%">
+
+        <ion-text [color]="'danger'">
+            稍后将有工作人员给您联系，请您留意哟！
+        </ion-text>
+        <ion-text [color]="'medium'" style="font-size: 0.5rem;margin-top: 1rem">
+            <span style="color: #f04141;">友情提示：</span>
+            网络刷单军事骗子，简历模特档案，办卡收费，视镜押金都有欺诈嫌疑，加iSpeak/YY联系职位的都是骗子！请谨慎！
+        </ion-text>
+        <div style="width: 50%;margin-top: 1rem">
+            <ion-button [color]="'danger'" expand="block" size="small" (click)="closeModal()">知道了</ion-button>
+        </div>
+    </div>
+
+</div>

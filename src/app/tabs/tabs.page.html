@@ -1,11 +1,47 @@
-<ion-tabs>
-  <ion-tab label="Home" icon="home" href="/tabs/(home:home)">
-    <ion-router-outlet name="home"></ion-router-outlet>
-  </ion-tab>
-  <ion-tab label="About" icon="information-circle" href="/tabs/(about:about)">
-    <ion-router-outlet name="about"></ion-router-outlet>
-  </ion-tab>
-  <ion-tab label="Contact" icon="contacts" href="/tabs/(contact:contact)">
-    <ion-router-outlet name="contact"></ion-router-outlet>
-  </ion-tab>
-</ion-tabs>
+<ion-content>
+    <ion-router-outlet></ion-router-outlet>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <div class="tabs">
+
+            <div class="tab" routerLink="/student-center" routerLinkActive="selectTab">
+                <svg class="icon" aria-hidden="true" style="width: 1.3rem;height: 1.3rem">
+                    <use xlink:href="#icon-xuesheng"></use>
+                </svg>
+                <ion-text class="tab-text">
+                    学生中心
+                </ion-text>
+            </div>
+
+            <div class="tab" routerLink="/job-list" routerLinkActive="selectTab">
+                <svg class="icon" aria-hidden="true" style="width: 1.3rem;height: 1.3rem">
+                    <use xlink:href="#icon-jianli"></use>
+                </svg>
+                <ion-text class="tab-text">
+                    求职
+                </ion-text>
+            </div>
+
+            <div class="tab" routerLink="/home" routerLinkActive="selectTab">
+                <svg class="icon" aria-hidden="true" style="width: 1.3rem;height: 1.3rem">
+                    <use xlink:href="#icon-shouye"></use>
+                </svg>
+                <ion-text class="tab-text">
+                    首页
+                </ion-text>
+            </div>
+            <div class="tab" routerLink="/enterprise-center" routerLinkActive="selectTab">
+                <svg class="icon" aria-hidden="true" style="width: 1.3rem;height: 1.3rem">
+                    <use xlink:href="#icon-qiye"></use>
+                </svg>
+                <ion-text class="tab-text">
+                    企业中心
+                </ion-text>
+            </div>
+
+        </div>
+
+    </ion-toolbar>
+</ion-footer>
