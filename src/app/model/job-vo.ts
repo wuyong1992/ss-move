@@ -8,6 +8,7 @@ export class JobVO {
   startTime: Date;
   endTime: Date;
   payPeriodType: number;
+  payPeriodTypeStr: string;
   salary: number;
   workTime: string;
   workAddress: string;

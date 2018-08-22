@@ -4,6 +4,7 @@ import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import {ServiceResponse} from '../model/service-response';
 import {JobVO} from '../model/job-vo';
+import {JobCategory} from '../model/job-category';
 
 const URL_PREFIX = environment.URL_PREFIX;
 
@@ -21,7 +22,7 @@ export class JobService {
      */
     findJobList(reqParam: {}): Observable<ServiceResponse<any>> {
         let param = new HttpParams({fromObject: reqParam});
-        let header = new HttpHeaders().set('Authorization ', localStorage.getItem('token'));
+        let header = new HttpHeaders().set('Authorization', localStorage.getItem('token'));
         return this.http.get(URL_PREFIX + '/frontend/job/list', {headers: header, params: param});
     }
 
@@ -30,8 +31,13 @@ export class JobService {
      * @param jobId
      */
     getJobVO(jobId: number): Observable<ServiceResponse<JobVO>> {
-        let header = new HttpHeaders().set('Authorization ', localStorage.getItem('token'));
+        let header = new HttpHeaders().set('Authorization', localStorage.getItem('token'));
         return this.http.get(URL_PREFIX + '/frontend/job/' + jobId, {headers: header});
+    }
+
+
+    getJobCategoryList(): Observable<ServiceResponse<JobCategory[]>> {
+        return this.http.get(URL_PREFIX + '/frontend/user/list');
     }
 
 

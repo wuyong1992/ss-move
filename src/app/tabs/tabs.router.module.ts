@@ -6,20 +6,25 @@ import {HomePage} from '../pages/home/home.page';
 import {StudentCenterPage} from '../pages/student-center/student-center.page';
 import {JobListPage} from '../pages/job-list/job-list.page';
 import {EnterpriseCenterPage} from '../pages/enterprise-center/enterprise-center.page';
+import {WechatWebAuthGuard} from '../guard/wechat-web-auth.guard';
 
 const routes: Routes = [
     {
         path: '',
         component: TabsPage,
+        canActivate: [
+            WechatWebAuthGuard
+        ],
         children: [
             {
-                path:'',
-                redirectTo:'home',
-                pathMatch:'full'
+                path: '',
+                redirectTo: 'job-list',
+                pathMatch: 'full'
             },
             {
                 path: 'student-center',
-                component: StudentCenterPage
+                component: StudentCenterPage,
+
             },
             {
                 path: 'job-list',

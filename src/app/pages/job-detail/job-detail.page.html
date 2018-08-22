@@ -14,20 +14,20 @@
     <div style="background-color: white;display: flex;flex-direction: column;justify-content: center;align-items: start"
          padding>
         <ion-text margin-bottom [color]="'dark'" style="font-size: 1.2rem">
-            传单派发
+            {{jobVO.jobTitle}}
         </ion-text>
         <ion-text margin-bottom [color]="'danger'" style="font-size: 1rem">
-            <span>60</span>元/天 &nbsp; <span style="color: #989aa2">|</span> &nbsp; <span>周结</span>
+            <span>{{jobVO.salary}}</span>元 &nbsp; <span style="color: #989aa2">|</span> &nbsp; <span>周结</span>
         </ion-text>
         <div style="width:100%;display:flex;flex-direction: row;justify-content: space-between">
             <ion-text [color]="'medium'" style="font-size: 0.5rem">
-                <span>更新：</span><span>1天前</span>
+                <span>更新：</span><span>{{updateTimeStr}}</span>
             </ion-text>
             <ion-text [color]="'medium'" style="font-size: 0.5rem">
-                <span>浏览：</span> <span>99</span> <span>人</span>
+                <span>浏览：</span> <span>{{jobVO.baseBrowseNum + jobVO.browseNum}}</span> <span>人</span>
             </ion-text>
             <ion-text [color]="'medium'" style="font-size: 0.5rem">
-                <span>申请：</span>9<span>人</span>
+                <span>申请：</span>{{jobVO.baseApplyNum+jobVO.applyNum}}<span>人</span>
             </ion-text>
         </div>
     </div>
@@ -43,7 +43,7 @@
             </ion-col>
             <ion-col [size]="9">
                 <ion-text [color]="'dark'" style="font-size: 0.8rem">
-                    <span>星期一、星期二、星期三、星期四、星期五、星期六、星期日</span>
+                    <span>{{jobVO.workTime}}</span>
                 </ion-text>
             </ion-col>
         </ion-row>
@@ -56,7 +56,7 @@
             </ion-col>
             <ion-col [size]="9">
                 <ion-text [color]="'dark'" style="font-size: 0.8rem">
-                    <span>长期招聘</span>
+                    <span>{{jobVO.startTime | date:"yyyy-MM-dd"}}&nbsp;-&nbsp;{{jobVO.endTime | date:"yyyy-MM-dd"}}</span>
                 </ion-text>
             </ion-col>
         </ion-row>
@@ -73,7 +73,7 @@
             </ion-col>
             <ion-col [size]="9">
                 <ion-text [color]="'dark'" style="font-size: 0.8rem">
-                    <span>芜湖市镜湖区XXXXXXXX</span>
+                    <span>{{jobVO.workAddress}}</span>
                 </ion-text>
             </ion-col>
         </ion-row>
@@ -89,7 +89,7 @@
 
     <div padding style="background-color: white">
         <ion-text [color]="'medium'" style="font-size: 0.5rem">
-            <span>需要外出跑，在小区，商城周围发传单，可以骑车，一天工作8小时，水自行解决</span>
+            <span>{{jobVO.jobDetail}}</span>
         </ion-text>
     </div>
 
@@ -104,12 +104,13 @@
 
     <div padding style="background-color: white">
         <ion-text [color]="'dark'" style="font-size: 0.5rem">
-            <span>我爱记歌词KTV（中山路步行街）</span>
+            <span>{{jobVO.enterpriseName}}</span>
         </ion-text>
     </div>
 
 </ion-content>
 
 <ion-footer>
-    <ion-button expand="full" [color]="'danger'" (click)="applyJob(1,$event)">我要报名</ion-button>
+    <ion-button *ngIf="jobVO.userApplyStatus == 1" expand="full" [color]="'danger'" disabled="true">审核中</ion-button>
+    <ion-button *ngIf="jobVO.userApplyStatus != 1" expand="full" [color]="'danger'" (click)="applyJob(1,$event)" >我要报名</ion-button>
 </ion-footer>

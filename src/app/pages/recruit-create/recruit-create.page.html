@@ -14,7 +14,7 @@
                 </ion-col>
 
                 <ion-col [size]="9">
-                    <ion-input [placeholder]="'如派发传单2-12个字'" [(ngModel)]="recruit.title" [max]="12"></ion-input>
+                    <ion-input [placeholder]="'如派发传单2-12个字'" [(ngModel)]="jobInfo.jobTitle" [max]="12"></ion-input>
                 </ion-col>
             </ion-row>
         </ion-item>
@@ -26,11 +26,16 @@
                 </ion-col>
 
                 <ion-col [size]="9">
-                    <ion-input [placeholder]="'请填写兼职类别，如服务员'"></ion-input>
+                    <div (click)="pickerJobCategory($event)">
+                        <ion-text [color]="'medium'">
+                            {{jobCategoryStr}}
+                        </ion-text>
+                    </div>
                 </ion-col>
             </ion-row>
         </ion-item>
 
+        <!-- 招聘人数 -->
         <ion-item>
             <ion-row align-items-baseline style="width: 100%">
                 <ion-col [size]="3">
@@ -38,7 +43,7 @@
                 </ion-col>
 
                 <ion-col [size]="9" style="display: flex;flex-direction: row;align-items: baseline">
-                    <ion-input [(ngModel)]="recruit.peopleSum" required [placeholder]="'请填写1-999之间的数字'"
+                    <ion-input [(ngModel)]="jobInfo.recruitNum" required [placeholder]="'请填写1-999之间的数字'"
                                [type]="'number'"></ion-input>
                     <span>人</span>
                 </ion-col>
@@ -52,7 +57,7 @@
                 </ion-col>
 
                 <ion-col [size]="9">
-                    <nz-radio-group [(ngModel)]="recruit.timeliness">
+                    <nz-radio-group [(ngModel)]="jobInfo.timelinessType">
                         <label nz-radio nzValue="1">短期</label>
                         <label nz-radio nzValue="2">长期</label>
                     </nz-radio-group>
@@ -122,7 +127,7 @@
                 </ion-col>
 
                 <ion-col [size]="9" style="display: flex;flex-direction: row;align-items: baseline">
-                    <ion-input [(ngModel)]="recruit.salary" required [placeholder]="'请填写1-999之间的数字'"
+                    <ion-input [(ngModel)]="jobInfo.salary" required [placeholder]="'请填写1-999之间的数字'"
                                [type]="'number'"></ion-input>
                     <span>元/{{payPeriodStr}}</span>
                 </ion-col>
@@ -131,17 +136,17 @@
 
         <ion-item>
             <ion-label position="floating">在此输入该工作的工作地点</ion-label>
-            <ion-textarea rows="2" maxlength="50" [(ngModel)]="recruit.workPlace"></ion-textarea>
+            <ion-textarea rows="2" maxlength="50" [(ngModel)]="jobInfo.workAddress"></ion-textarea>
         </ion-item>
 
         <ion-item>
             <ion-label position="floating">在此输入该工作的时间或时间段</ion-label>
-            <ion-textarea rows="4" maxlength="50" [(ngModel)]="recruit.workTime"></ion-textarea>
+            <ion-textarea rows="4" maxlength="50" [(ngModel)]="jobInfo.workTime"></ion-textarea>
         </ion-item>
 
         <ion-item>
-            <ion-label position="floating">在此输入该工作的时间或时间段</ion-label>
-            <ion-textarea rows="5" maxlength="50" [(ngModel)]="recruit.workDetail"></ion-textarea>
+            <ion-label position="floating">在此输入该工作的详细情况</ion-label>
+            <ion-textarea rows="5" maxlength="50" [(ngModel)]="jobInfo.jobDetail"></ion-textarea>
         </ion-item>
         <!--
                 <ion-item>

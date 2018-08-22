@@ -4,7 +4,8 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 export const environment = {
     production: false,
-    URL_PREFIX:"http://localhost:8080"
+    URL_PREFIX:"http://localhost:8080",
+    WE_CHAT_WEB_AUTH_URL: 'http://sa-api.natapp1.cc/wechat/web-auth'
 };
 
 /*

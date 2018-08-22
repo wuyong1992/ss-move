@@ -1,42 +1,69 @@
 <ion-header>
-    <ion-toolbar [translucent]="true">
+    <ion-toolbar>
         <ion-segment [color]="'danger'">
-            <ion-segment-button [value]="'leaflet'" [checked]="true">
-                传单
+            <ion-segment-button [value]="'all'" [checked]="currentSegment == 'all'" (ionSelect)="segmentSelect($event)">
+                全部
             </ion-segment-button>
-            <ion-segment-button [value]="'customerService'">
-                客服
+            <ion-segment-button [value]="'payPeriodType'" [checked]="currentSegment == 'payPeriodType'" (ionSelect)="segmentSelect($event)">
+                结算周期
             </ion-segment-button>
-            <ion-segment-button [value]="'waiter'">
-                服务员
-            </ion-segment-button>
-            <ion-segment-button [value]="'other'">
-                其他
+            <ion-segment-button [value]="'jobCategory'" [checked]="currentSegment == 'jobCategory'" (ionSelect)="segmentSelect($event)">
+                招聘分类
             </ion-segment-button>
         </ion-segment>
+        <!--<div class="header-container">
+            <div class="header-item" text-center>
+                <ion-text>
+                    全部
+                </ion-text>
+            </div>
+            <div class="header-item" text-center>
+                <ion-text>
+                    全部
+                </ion-text>
+            </div>
+            <div class="header-item" text-center>
+                <ion-text>
+                    全部
+                </ion-text>
+            </div>
+            <div class="header-item" text-center>
+                <ion-text>
+                    全部
+                </ion-text>
+            </div>
+            <div class="header-item" text-center>
+                <ion-text>
+                    全部
+                </ion-text>
+            </div>
+        </div>-->
     </ion-toolbar>
 </ion-header>
 <!--<ion-scroll (ionScrollEnd)="onScroll($event)">
 
 </ion-scroll>-->
-<ion-content [color]="'light'" [scrollEvents]="true" (ionScrollEnd)="onScroll($event)">
+<!--<ion-content [color]="'light'" [scrollEvents]="true" (ionScrollEnd)="onScroll($event)">-->
+<ion-content [color]="'light'" [scrollEvents]="true" *ngIf="currentSegment == 'all'">
 
-    <ion-card style="margin: 0.5rem 0;width: 100%;background-color: white" (click)="gotoJobDetail(1)">
+    <ion-card style="margin: 0.5rem 0;width: 100%;background-color: white"
+              *ngFor="let jobVO of jobVOList"
+              (click)="gotoJobDetail(jobVO?.jobId)">
         <ion-card-content style="padding: 0.5rem">
             <ion-card-subtitle [color]="'medium'" style="display: flex" justify-content-between>
                 <div>
                     <span>发布时间：</span>
-                    <span>2018-08-01 20:58</span>
+                    <span>{{jobVO?.createTime | date:"yyyy-MM-dd"}}</span>
                 </div>
 
                 <div>
-                    <span>230</span>
+                    <span>{{jobVO?.baseBrowseNum + jobVO?.browseNum}}</span>
                     <span>人看过</span>
                 </div>
 
             </ion-card-subtitle>
 
-            <ion-card-title style="font-size: 1rem" [color]="'dark'">二维码推广员</ion-card-title>
+            <ion-card-title style="font-size: 1rem" [color]="'dark'">{{jobVO?.jobTitle}}</ion-card-title>
 
             <ion-grid>
                 <ion-row align-items-baseline>
@@ -45,7 +72,7 @@
                             <svg class="icon" aria-hidden="true">
                                 <use xlink:href="#icon-dizhi"></use>
                             </svg>
-                            镜湖-镜湖周边
+                            {{jobVO?.workAddress}}
                         </p>
                     </ion-col>
                     <ion-col [size]="'6'">
@@ -53,318 +80,85 @@
                             <svg class="icon" aria-hidden="true">
                                 <use xlink:href="#icon-qiye1"></use>
                             </svg>
-                            芜湖市爱记歌词餐厅
+                            {{jobVO?.enterpriseName}}
                         </p>
                     </ion-col>
                     <ion-col [size]="'2'">
-                        <ion-button color="danger" size="small" expand="full" (click)="applyJob(1,$event)">报名</ion-button>
+                        <ion-button color="danger" size="small" expand="full"
+                                    *ngIf="jobVO?.userApplyStatus != 1"
+                                    (click)="applyJob(jobVO?.jobId,$event)">报名
+                        </ion-button>
+
+                        <ion-button color="danger" size="small" expand="full" disabled="true"
+                                    *ngIf="jobVO?.userApplyStatus == 1">审核中
+                        </ion-button>
                     </ion-col>
                 </ion-row>
             </ion-grid>
             <ion-text [color]="'danger'" style="margin-right: 1rem">
-                <span>150</span>
-                <span style="font-size: 0.6rem">元/天</span>
+                <span>{{jobVO?.salary}}</span>
+                <span style="font-size: 0.6rem">元/{{jobVO?.payPeriodTypeStr}}</span>
             </ion-text>
-            <svg class="icon" aria-hidden="true">
+            <svg class="icon" aria-hidden="true" *ngIf="jobVO?.payPeriodType == 1">
                 <use xlink:href="#icon-ri"></use>
             </svg>
-        </ion-card-content>
-    </ion-card>
-    <ion-card style="margin: 0.5rem 0;width: 100%;background-color: white">
-        <ion-card-content style="padding: 0.5rem">
-            <ion-card-subtitle [color]="'medium'" style="display: flex" justify-content-between>
-                <div>
-                    <span>发布时间：</span>
-                    <span>2018-08-01 20:58</span>
-                </div>
-
-                <div>
-                    <span>230</span>
-                    <span>人看过</span>
-                </div>
-
-            </ion-card-subtitle>
-
-            <ion-card-title style="font-size: 1rem" [color]="'dark'">二维码推广员</ion-card-title>
-
-            <ion-grid>
-                <ion-row align-items-baseline>
-                    <ion-col [size]="'4'">
-                        <p style="font-size: 0.5rem">
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-dizhi"></use>
-                            </svg>
-                            镜湖-镜湖周边
-                        </p>
-                    </ion-col>
-                    <ion-col [size]="'6'">
-                        <p style="font-size: 0.5rem">
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-qiye1"></use>
-                            </svg>
-                            芜湖市爱记歌词餐厅
-                        </p>
-                    </ion-col>
-                    <ion-col [size]="'2'">
-                        <ion-button color="dark" disabled="true" size="small" expand="full">已报名</ion-button>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-            <ion-text [color]="'danger'" style="margin-right: 1rem">
-                <span>150</span>
-                <span style="font-size: 0.6rem">元/天</span>
-            </ion-text>
-            <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-ri"></use>
+            <svg class="icon" aria-hidden="true" *ngIf="jobVO?.payPeriodType == 2">
+                <use xlink:href="#icon-zhou"></use>
             </svg>
-        </ion-card-content>
-    </ion-card>
-    <ion-card style="margin: 0.5rem 0;width: 100%;background-color: white">
-        <ion-card-content style="padding: 0.5rem">
-            <ion-card-subtitle [color]="'medium'" style="display: flex" justify-content-between>
-                <div>
-                    <span>发布时间：</span>
-                    <span>2018-08-01 20:58</span>
-                </div>
-
-                <div>
-                    <span>230</span>
-                    <span>人看过</span>
-                </div>
-
-            </ion-card-subtitle>
-
-            <ion-card-title style="font-size: 1rem" [color]="'dark'">二维码推广员</ion-card-title>
-
-            <ion-grid>
-                <ion-row align-items-baseline>
-                    <ion-col [size]="'4'">
-                        <p style="font-size: 0.5rem">
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-dizhi"></use>
-                            </svg>
-                            镜湖-镜湖周边
-                        </p>
-                    </ion-col>
-                    <ion-col [size]="'6'">
-                        <p style="font-size: 0.5rem">
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-qiye1"></use>
-                            </svg>
-                            芜湖市爱记歌词餐厅
-                        </p>
-                    </ion-col>
-                    <ion-col [size]="'2'">
-                        <ion-button color="danger" size="small" expand="full">报名</ion-button>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-            <ion-text [color]="'danger'" style="margin-right: 1rem">
-                <span>150</span>
-                <span style="font-size: 0.6rem">元/天</span>
-            </ion-text>
-            <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-ri"></use>
+            <svg class="icon" aria-hidden="true" *ngIf="jobVO?.payPeriodType == 3">
+                <use xlink:href="#icon-yue"></use>
             </svg>
-        </ion-card-content>
-    </ion-card>
-    <ion-card style="margin: 0.5rem 0;width: 100%;background-color: white">
-        <ion-card-content style="padding: 0.5rem">
-            <ion-card-subtitle [color]="'medium'" style="display: flex" justify-content-between>
-                <div>
-                    <span>发布时间：</span>
-                    <span>2018-08-01 20:58</span>
-                </div>
 
-                <div>
-                    <span>230</span>
-                    <span>人看过</span>
-                </div>
-
-            </ion-card-subtitle>
-
-            <ion-card-title style="font-size: 1rem" [color]="'dark'">二维码推广员</ion-card-title>
-
-            <ion-grid>
-                <ion-row align-items-baseline>
-                    <ion-col [size]="'4'">
-                        <p style="font-size: 0.5rem">
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-dizhi"></use>
-                            </svg>
-                            镜湖-镜湖周边
-                        </p>
-                    </ion-col>
-                    <ion-col [size]="'6'">
-                        <p style="font-size: 0.5rem">
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-qiye1"></use>
-                            </svg>
-                            芜湖市爱记歌词餐厅
-                        </p>
-                    </ion-col>
-                    <ion-col [size]="'2'">
-                        <ion-button color="danger" size="small" expand="full">报名</ion-button>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-            <ion-text [color]="'danger'" style="margin-right: 1rem">
-                <span>150</span>
-                <span style="font-size: 0.6rem">元/天</span>
-            </ion-text>
-            <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-ri"></use>
-            </svg>
-        </ion-card-content>
-    </ion-card>
-    <ion-card style="margin: 0.5rem 0;width: 100%;background-color: white">
-        <ion-card-content style="padding: 0.5rem">
-            <ion-card-subtitle [color]="'medium'" style="display: flex" justify-content-between>
-                <div>
-                    <span>发布时间：</span>
-                    <span>2018-08-01 20:58</span>
-                </div>
-
-                <div>
-                    <span>230</span>
-                    <span>人看过</span>
-                </div>
-
-            </ion-card-subtitle>
-
-            <ion-card-title style="font-size: 1rem" [color]="'dark'">二维码推广员</ion-card-title>
-
-            <ion-grid>
-                <ion-row align-items-baseline>
-                    <ion-col [size]="'4'">
-                        <p style="font-size: 0.5rem">
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-dizhi"></use>
-                            </svg>
-                            镜湖-镜湖周边
-                        </p>
-                    </ion-col>
-                    <ion-col [size]="'6'">
-                        <p style="font-size: 0.5rem">
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-qiye1"></use>
-                            </svg>
-                            芜湖市爱记歌词餐厅
-                        </p>
-                    </ion-col>
-                    <ion-col [size]="'2'">
-                        <ion-button color="danger" size="small" expand="full">报名</ion-button>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-            <ion-text [color]="'danger'" style="margin-right: 1rem">
-                <span>150</span>
-                <span style="font-size: 0.6rem">元/天</span>
-            </ion-text>
-            <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-ri"></use>
-            </svg>
-        </ion-card-content>
-    </ion-card>
-    <ion-card style="margin: 0.5rem 0;width: 100%;background-color: white">
-        <ion-card-content style="padding: 0.5rem">
-            <ion-card-subtitle [color]="'medium'" style="display: flex" justify-content-between>
-                <div>
-                    <span>发布时间：</span>
-                    <span>2018-08-01 20:58</span>
-                </div>
-
-                <div>
-                    <span>230</span>
-                    <span>人看过</span>
-                </div>
-
-            </ion-card-subtitle>
-
-            <ion-card-title style="font-size: 1rem" [color]="'dark'">二维码推广员</ion-card-title>
-
-            <ion-grid>
-                <ion-row align-items-baseline>
-                    <ion-col [size]="'4'">
-                        <p style="font-size: 0.5rem">
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-dizhi"></use>
-                            </svg>
-                            镜湖-镜湖周边
-                        </p>
-                    </ion-col>
-                    <ion-col [size]="'6'">
-                        <p style="font-size: 0.5rem">
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-qiye1"></use>
-                            </svg>
-                            芜湖市爱记歌词餐厅
-                        </p>
-                    </ion-col>
-                    <ion-col [size]="'2'">
-                        <ion-button color="danger" size="small" expand="full">报名</ion-button>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-            <ion-text [color]="'danger'" style="margin-right: 1rem">
-                <span>150</span>
-                <span style="font-size: 0.6rem">元/天</span>
-            </ion-text>
-            <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-ri"></use>
-            </svg>
-        </ion-card-content>
-    </ion-card>
-    <ion-card style="margin: 0.5rem 0;width: 100%;background-color: white" (click)="gotoJobDetail(1)">
-        <ion-card-content style="padding: 0.5rem">
-            <ion-card-subtitle [color]="'medium'" style="display: flex" justify-content-between>
-                <div>
-                    <span>发布时间：</span>
-                    <span>2018-08-01 20:58</span>
-                </div>
-
-                <div>
-                    <span>230</span>
-                    <span>人看过</span>
-                </div>
-
-            </ion-card-subtitle>
-
-            <ion-card-title style="font-size: 1rem" [color]="'dark'">二维码推广员</ion-card-title>
-
-            <ion-grid>
-                <ion-row align-items-baseline>
-                    <ion-col [size]="'4'">
-                        <p style="font-size: 0.5rem">
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-dizhi"></use>
-                            </svg>
-                            镜湖-镜湖周边
-                        </p>
-                    </ion-col>
-                    <ion-col [size]="'6'">
-                        <p style="font-size: 0.5rem">
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-qiye1"></use>
-                            </svg>
-                            芜湖市爱记歌词餐厅
-                        </p>
-                    </ion-col>
-                    <ion-col [size]="'2'">
-                        <ion-button color="danger" size="small" expand="full">报名</ion-button>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-            <ion-text [color]="'danger'" style="margin-right: 1rem">
-                <span>150</span>
-                <span style="font-size: 0.6rem">元/天</span>
-            </ion-text>
-            <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-ri"></use>
-            </svg>
         </ion-card-content>
     </ion-card>
 
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)" *ngIf="hasNextPage">
+        <ion-infinite-scroll-content
+                loadingSpinner="bubbles"
+                loadingText="拼命加载中...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
+    <div *ngIf="!hasNextPage"
+         style="display: flex;flex-direction: row;justify-content: center;margin-top: 1rem;margin-bottom: 0.5rem">
+
+        <hr style="border: 0.5px solid #f04141;width: 30%">
+        <ion-text>
+            我也是有底线的
+        </ion-text>
+        <hr style="border: 0.5px solid #f04141;width: 30%">
+    </div>
+</ion-content>
+
+<ion-content [color]="'light'" [scrollEvents]="true" *ngIf="currentSegment == 'payPeriodType'" padding-top>
+
+
+    <ion-chip [color]="'Medium'" margin-start (click)="clearPayPeriodType()">
+        <ion-label [color]="'dark'">全部</ion-label>
+    </ion-chip>
+
+    <ion-chip [color]="'Medium'" margin-start (click)="selectPayPeriodType(1)">
+        <ion-label [color]="'dark'">日结</ion-label>
+    </ion-chip>
+
+    <ion-chip [color]="'Medium'" margin-start (click)="selectPayPeriodType(2)">
+        <ion-label [color]="'dark'">周结</ion-label>
+    </ion-chip>
+
+    <ion-chip [color]="'Medium'" margin-start (click)="selectPayPeriodType(3)">
+        <ion-label [color]="'dark'">月结</ion-label>
+    </ion-chip>
+
+</ion-content>
+
+<ion-content [color]="'light'" [scrollEvents]="true" *ngIf="currentSegment == 'jobCategory'" padding-top>
+
+    <ion-chip [color]="'Medium'" margin-start (click)="clearJobCategoryId()">
+        <ion-label [color]="'dark'">全部</ion-label>
+    </ion-chip>
+
+    <ion-chip [color]="'Medium'" margin-start *ngFor="let jobCategory of jobCategoryList" (click)="selectJobCategoryId(jobCategory.categoryId)">
+        <ion-label [color]="'dark'">{{jobCategory.categoryName}}</ion-label>
+    </ion-chip>
 
 </ion-content>

@@ -20,7 +20,7 @@ export class EnterpriseService {
      * 获取企业信息
      */
     getEnterpriseInfo(): Observable<ServiceResponse<EnterpriseInfo>> {
-        let header = new HttpHeaders().set('Authorization ', localStorage.getItem('token'));
+        let header = new HttpHeaders().set('Authorization', localStorage.getItem('token'));
         return this.http.get(URL_PREFIX + '/frontend/enterprise', {headers: header});
     }
 
@@ -29,8 +29,8 @@ export class EnterpriseService {
      * @param enterpriseInfo
      */
     saveEnterpriseInfo(enterpriseInfo: EnterpriseInfo): Observable<ServiceResponse<EnterpriseInfo>> {
-        let header = new HttpHeaders().set('Authorization ', localStorage.getItem('token')).set('Content-Type', 'application/json');
-        return this.http.post(URL_PREFIX + '/frontend/enterprise/save-job', JSON.stringify(enterpriseInfo), {headers: header});
+        let header = new HttpHeaders().set('Authorization', localStorage.getItem('token')).set('Content-Type', 'application/json');
+        return this.http.post(URL_PREFIX + '/frontend/enterprise', JSON.stringify(enterpriseInfo), {headers: header});
     }
 
     /**
@@ -38,7 +38,7 @@ export class EnterpriseService {
      * @param jonInfo
      */
     saveJob(jonInfo: JobInfo): Observable<ServiceResponse<any>> {
-        let header = new HttpHeaders().set('Authorization ', localStorage.getItem('token')).set('Content-Type', 'application/json');
+        let header = new HttpHeaders().set('Authorization', localStorage.getItem('token')).set('Content-Type', 'application/json');
         return this.http.post(URL_PREFIX + '/frontend/enterprise/save-job', JSON.stringify(jonInfo), {headers: header});
     }
 
@@ -46,7 +46,7 @@ export class EnterpriseService {
      * 获取自己已发布的招聘信息
      */
     getSelfPutOutJobList(): Observable<ServiceResponse<any>> {
-        let header = new HttpHeaders().set('Authorization ', localStorage.getItem('token'));
+        let header = new HttpHeaders().set('Authorization', localStorage.getItem('token'));
         return this.http.get(URL_PREFIX + '/frontend/enterprise/job-list', {headers: header});
     }
 

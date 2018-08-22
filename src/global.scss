@@ -13,7 +13,6 @@ div, input, button, select, textarea {
   outline: none;
 }
 
-
 ion-popover {
   div.popover-content {
     width: 80vw !important;
@@ -23,11 +22,19 @@ ion-popover {
   }
 }
 
-.popover-arrow{
+.popover-arrow {
   display: none !important;
 }
 
-.ali-ionic-2x{
+.ali-ionic-2x {
   //width: 2rem;
   //height: 2rem;
+}
+
+.error {
+  background-color: #f04141;
+}
+
+.success {
+  background-color: #3880ff;
 }

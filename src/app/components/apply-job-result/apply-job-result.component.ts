@@ -9,7 +9,7 @@ import {NavParams} from '@ionic/angular';
 })
 export class ApplyJobResultComponent implements OnInit {
 
-    userInfoFull: boolean = false;
+    result: boolean = false;
     popover: any;
 
     constructor(private router: Router,
@@ -18,14 +18,10 @@ export class ApplyJobResultComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.navParams.data);
-        console.log(this.userInfoFull);
-        console.log(this.popover);
 
     }
 
     closeModal() {
-        console.log('close');
         this.popover.dismiss()
 
     }

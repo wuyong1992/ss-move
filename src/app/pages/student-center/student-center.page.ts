@@ -1,30 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-import {AlertController, PickerController} from '@ionic/angular';
+import {Component, OnInit} from '@angular/core';
+import {AlertController, PickerController, ToastController} from '@ionic/angular';
+import {ToastUtil} from '../../util/toast-util';
+import {UserService} from '../../service/user.service';
+import {UserInfo} from '../../model/user-info';
+import {ValidatePhone, ValidateQQ} from '../../util/my-validate';
 
 @Component({
-  selector: 'app-student-center',
-  templateUrl: './student-center.page.html',
-  styleUrls: ['./student-center.page.scss'],
+    selector: 'app-student-center',
+    templateUrl: './student-center.page.html',
+    styleUrls: ['./student-center.page.scss'],
 })
 export class StudentCenterPage implements OnInit {
 
+    userInfo = new UserInfo();
+
+
     constructor(private alertCtrl: AlertController,
-                private pickerCtrl: PickerController) {
+                private pickerCtrl: PickerController,
+                private toastCtrl: ToastController,
+                private userService: UserService) {
     }
 
     ngOnInit() {
+        this.initUserInfo();
     }
 
 
     /* 姓名 */
-    async inputUsername() {
-        const usernameAlert = await this.alertCtrl.create({
-            header: '输入用户名',
+    async inputRealName() {
+        const realNameAlert = await this.alertCtrl.create({
+            header: '输入真实姓名',
             inputs: [
                 {
-                    name: 'username',
+                    name: 'realName',
                     type: 'text',
-                    placeholder: 'username'
+                    placeholder: '必填'
                 }
             ],
             buttons: [
@@ -32,21 +42,22 @@ export class StudentCenterPage implements OnInit {
                     text: '取消',
                     role: 'cancel',
                     cssClass: 'secondary',
-                    handler: () => {}
+                    handler: () => {
+                    }
                 },
                 {
                     text: '确定',
                     handler: (data) => {
-                        console.log('OK', data);
-                        if (!data.username) {
+                        let realName = data.realName;
+                        if (!realName || !realName.trim()) {
                             return false;
                         }
-                        /* TODO 更新用户昵称 */
+                        this.userInfo.realName = realName;
                     }
                 }
             ]
         });
-        usernameAlert.present();
+        realNameAlert.present();
     }
 
     /* 年龄 */
@@ -66,6 +77,7 @@ export class StudentCenterPage implements OnInit {
                     role: 'Okay',
                     handler: (data) => {
                         console.log('ok:', data);
+                        this.userInfo.age = data.agePicker.value;
                     }
                 }
             ],
@@ -74,6 +86,10 @@ export class StudentCenterPage implements OnInit {
                     name: 'agePicker',
                     options: [
                         {
+                            text: '17',
+                            value: 17,
+                            disabled: true
+                        }, {
                             text: '18',
                             value: 18,
                         },
@@ -140,34 +156,296 @@ export class StudentCenterPage implements OnInit {
     }
 
     /* 性别 */
-    async selectSex() {
-
+    async pickerSex() {
+        const sexPicker = await this.pickerCtrl.create({
+            buttons: [
+                {
+                    text: '取消',
+                    role: 'Cancel',
+                    cssClass: 'secondary',
+                    handler: (data) => {
+                        console.log('cancel:', data);
+                    }
+                },
+                {
+                    text: '确定',
+                    role: 'Okay',
+                    handler: (data) => {
+                        console.log('ok:', data);
+                        this.userInfo.sex = data.sexPicker.value;
+                    }
+                }
+            ],
+            columns: [
+                {
+                    name: 'sexPicker',
+                    options: [
+                        {
+                            text: '保密',
+                            value: 0,
+                            disabled: true
+                        },
+                        {
+                            text: '男',
+                            value: 1,
+                        },
+                        {
+                            text: '女',
+                            value: 2,
+                        }
+                    ],
+                    selectedIndex: 1
+                },
+            ],
+            cssClass: 'secondary'
+        });
+        sexPicker.present();
     }
 
     /* 学校名称 */
     async inputSchoolName() {
-
+        const schoolNameAlert = await this.alertCtrl.create({
+            header: '输入您的学校全称',
+            inputs: [
+                {
+                    name: 'schoolName',
+                    type: 'text',
+                    placeholder: '必填'
+                }
+            ],
+            buttons: [
+                {
+                    text: '取消',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: () => {
+                    }
+                },
+                {
+                    text: '确定',
+                    handler: (data) => {
+                        let schoolName = data.schoolName;
+                        if (!schoolName || !schoolName.trim()) {
+                            return false;
+                        }
+                        this.userInfo.schoolName = schoolName;
+                    }
+                }
+            ]
+        });
+        schoolNameAlert.present();
     }
 
     /* 专业 */
     async inputMajor() {
-
+        const majorAlert = await this.alertCtrl.create({
+            header: '输入您的专业全称',
+            inputs: [
+                {
+                    name: 'major',
+                    type: 'text',
+                    placeholder: '必填'
+                }
+            ],
+            buttons: [
+                {
+                    text: '取消',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: () => {
+                    }
+                },
+                {
+                    text: '确定',
+                    handler: (data) => {
+                        let major = data.major;
+                        if (!major || !major.trim()) {
+                            return false;
+                        }
+                        this.userInfo.major = major;
+                    }
+                }
+            ]
+        });
+        majorAlert.present();
     }
 
     /* qq */
     async inputQQ() {
-
+        const qqAlert = await this.alertCtrl.create({
+            header: '输入您的QQ号',
+            inputs: [
+                {
+                    name: 'qq',
+                    type: 'number',
+                    placeholder: '选填'
+                }
+            ],
+            buttons: [
+                {
+                    text: '取消',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: () => {
+                    }
+                },
+                {
+                    text: '确定',
+                    handler: (data) => {
+                        let qq = data.qq;
+                        if (!qq || !qq.trim()) {
+                            return false;
+                        }
+                        this.userInfo.qq = qq;
+                    }
+                }
+            ]
+        });
+        qqAlert.present();
     }
 
     /* 手机号 */
     async inputPhone() {
-
+        const phoneAlert = await this.alertCtrl.create({
+            header: '输入您的手机号',
+            inputs: [
+                {
+                    name: 'phone',
+                    type: 'number',
+                    placeholder: '手机号',
+                }
+            ],
+            buttons: [
+                {
+                    text: '取消',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: () => {
+                    }
+                },
+                {
+                    text: '确定',
+                    handler: (data) => {
+                        let phone = data.phone;
+                        if (!phone || !phone.trim()) {
+                            return false;
+                        }
+                        this.userInfo.phone = phone;
+                    }
+                }
+            ]
+        });
+        phoneAlert.present();
     }
 
     /* 特长 */
     async inputSpeciality() {
-
+        const specialityAlert = await this.alertCtrl.create({
+            header: '输入您的特长',
+            inputs: [
+                {
+                    name: 'speciality',
+                    type: 'text',
+                    placeholder: '选填'
+                }
+            ],
+            buttons: [
+                {
+                    text: '取消',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: () => {
+                    }
+                },
+                {
+                    text: '确定',
+                    handler: (data) => {
+                        let speciality = data.speciality;
+                        if (!speciality || !speciality.trim()) {
+                            return false;
+                        }
+                        this.userInfo.speciality = speciality;
+                    }
+                }
+            ]
+        });
+        specialityAlert.present();
     }
 
 
+    /**
+     * 初始化用户信息
+     */
+    private initUserInfo() {
+        this.userService.getUserInfo().subscribe(
+            res => {
+                if (res.code == 0) {
+                    this.userInfo = res.data;
+                } else {
+                    ToastUtil.presentToast(this.toastCtrl, res.msg);
+                }
+            }
+        );
+    }
+
+    saveUserInfo() {
+        console.log('save:', this.userInfo);
+        // 参数校验
+
+        if (this.userInfo.realName == null || this.userInfo.realName == undefined) {
+            ToastUtil.presentToast(this.toastCtrl, '真实姓名不能为空');
+            return;
+        }
+
+        if (this.userInfo.age == null || this.userInfo.age == undefined) {
+            ToastUtil.presentToast(this.toastCtrl, '年龄不能为空');
+            return;
+        }
+
+        if (this.userInfo.sex == null || this.userInfo.sex == undefined) {
+            ToastUtil.presentToast(this.toastCtrl, '不能没有性别吧');
+            return;
+        }
+
+        if (this.userInfo.schoolName == null || this.userInfo.schoolName == undefined) {
+            ToastUtil.presentToast(this.toastCtrl, '学校名称还是需要的');
+            return;
+        }
+
+        if (this.userInfo.major == null || this.userInfo.major == undefined) {
+            ToastUtil.presentToast(this.toastCtrl, '专业不能为空');
+            return;
+        }
+
+        /*if (this.userInfo.qq == null || this.userInfo.qq == undefined) {
+            ToastUtil.presentToast(this.toastCtrl, 'QQ不能为空，我们需要能联系你');
+            return;
+        }*/
+
+        if (this.userInfo.phone == null || this.userInfo.phone == undefined) {
+            ToastUtil.presentToast(this.toastCtrl, '手机号不填我们怎么联系你呢？');
+            return;
+        }
+        if (!ValidatePhone(this.userInfo.phone)) {
+            ToastUtil.presentToast(this.toastCtrl, '手机号不符合规则，别乱填');
+            return;
+        }
+
+        /*if (this.userInfo.speciality == null || this.userInfo.speciality == undefined) {
+            ToastUtil.presentToast(this.toastCtrl, '难道你真的没有特长吗？');
+            return;
+        }*/
+
+        // 校验通过
+        this.userService.saveUser(this.userInfo).subscribe(
+            res => {
+                if (res.code == 0) {
+                    this.userInfo = res.data;
+                    ToastUtil.presentToast(this.toastCtrl, res.msg);
+                } else {
+                    ToastUtil.presentToast(this.toastCtrl, res.msg);
+                }
+            }
+        );
+    }
 }

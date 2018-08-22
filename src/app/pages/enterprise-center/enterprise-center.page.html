@@ -12,12 +12,15 @@
 
         <!-- 头像 -->
         <div style="display: flex;flex-direction:column;justify-content: center;align-items: center">
-            <div style="width:20%;margin-top: -2rem;">
-                <img src="../../../assets/images/tx.jpeg" alt="头像"
-                     style="border-radius: 50%; border: 3px solid #eee;overflow: hidden">
+            <div style="margin-top: -2rem;border-radius: 50%; border: 3px solid #eee;overflow: hidden;background-color: white">
+                <!--<img src="../../../assets/images/tx.jpeg" alt="头像"
+                     style="border-radius: 50%; border: 3px solid #eee;overflow: hidden">-->
+                <svg class="icon ali-ionic-2x" aria-hidden="true" style="width: 4rem;height: 4rem">
+                    <use xlink:href="#icon-qiye2"></use>
+                </svg>
             </div>
             <ion-text [color]="'dark'">
-                <h6>ZC.is typing ~</h6>
+                <h6>{{enterpriseInfo.fullName}}</h6>
             </ion-text>
         </div>
 
@@ -27,12 +30,12 @@
     <div>
 
         <ion-list class="list-bottom">
-            <ion-item [detail]="true" (click)="inputUsername()">
+            <ion-item [detail]="true" (click)="inputManageName()">
                 <svg class="icon ali-ionic-2x" aria-hidden="true">
                     <use xlink:href="#icon-xingming"></use>
                 </svg>
                 <ion-text [color]="'dark'" style="margin-left: 1rem;font-size: 0.8rem">
-                    <span>负责人姓名：</span> <span>ZC.is typing ~</span>
+                    <span>负责人姓名：</span> <span>{{enterpriseInfo.manageName}}</span>
                 </ion-text>
             </ion-item>
         </ion-list>
@@ -46,7 +49,7 @@
                 </svg>
 
                 <ion-text [color]="'dark'" style="margin-left: 1rem;font-size: 0.8rem">
-                    <span>联系电话：</span> <span>13955579876</span>
+                    <span>联系电话：</span> <span>{{enterpriseInfo.enterprisePhone}}</span>
                 </ion-text>
             </ion-item>
         </ion-list>
@@ -58,31 +61,31 @@
                     <use xlink:href="#icon-qiye1"></use>
                 </svg>
                 <ion-text [color]="'dark'" style="margin-left: 1rem;font-size: 0.8rem">
-                    <span>企业全称：</span> <span>XXX餐饮店</span>
+                    <span>企业全称：</span> <span>{{enterpriseInfo.fullName}}</span>
                 </ion-text>
             </ion-item>
         </ion-list>
 
         <!-- 企业简介 -->
         <ion-list class="list-bottom">
-            <ion-item [detail]="true" (click)="inputEnterpriseFullName()">
+            <ion-item [detail]="true" (click)="inputEnterpriseIntro()">
                 <svg class="icon ali-ionic-2x" aria-hidden="true">
                     <use xlink:href="#icon-jianjie"></use>
                 </svg>
                 <ion-text [color]="'dark'" style="margin-left: 1rem;font-size: 0.8rem">
-                    <span>企业简介：</span> <span>餐饮服务行业</span>
+                    <span>企业简介：</span> <span>{{enterpriseInfo.intro}}</span>
                 </ion-text>
             </ion-item>
         </ion-list>
 
         <!-- 企业地址 -->
         <ion-list class="list-bottom">
-            <ion-item [detail]="true" (click)="inputEnterpriseFullName()">
+            <ion-item [detail]="true" (click)="inputEnterpriseAddress()">
                 <svg class="icon ali-ionic-2x" aria-hidden="true">
                     <use xlink:href="#icon-dizhi"></use>
                 </svg>
                 <ion-text [color]="'dark'" style="margin-left: 1rem;font-size: 0.8rem">
-                    <span>企业地址：</span> <span>瑞丰商博城12A20002</span>
+                    <span>企业地址：</span> <span>{{enterpriseInfo.enterpriseAddress}}</span>
                 </ion-text>
             </ion-item>
         </ion-list>
@@ -94,13 +97,13 @@
                 </svg>
 
                 <ion-text [color]="'dark'" style="margin-left: 1rem;font-size: 0.8rem">
-                    <span>QQ：</span> <span>605422978</span>
+                    <span>QQ：</span> <span>{{enterpriseInfo.enterpriseQq}}</span>
                 </ion-text>
             </ion-item>
         </ion-list>
     </div>
 
-    <div style="width: 100%;display: flex;justify-content: center">
+    <!--<div style="width: 100%;display: flex;justify-content: center">
         <ion-button [expand]="'full'" style="width: 80%" href="/recruit-create">
             发布招聘
         </ion-button>
@@ -108,6 +111,11 @@
     <div style="width: 100%;display: flex;justify-content: center">
         <ion-button [expand]="'full'" style="width: 80%">
             我的招聘
+        </ion-button>
+    </div>-->
+    <div style="width: 100%;display: flex;justify-content: center">
+        <ion-button [expand]="'full'" style="width: 80%" [color]="'danger'" (click)="saveEnterprise($event)">
+            更新企业信息
         </ion-button>
     </div>
 
